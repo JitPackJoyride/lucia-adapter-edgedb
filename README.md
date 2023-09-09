@@ -1,4 +1,4 @@
-# `jitpackjoyride/adapter-edgedb`
+# `jitpackjoyride/lucia-adapter-edgedb`
 
 [EdgeDB](https://www.edgedb.com/) adapter for Lucia v2.
 
@@ -11,14 +11,12 @@
 ## Installation
 
 ```
-bun add jitpackjoyride/adapter-edgedb (recommended)
-npm install jitpackjoyride/adapter-edgedb
-pnpm add jitpackjoyride/adapter-edgedb
-yarn add jitpackjoyride/adapter-edgedb
+bun add jitpackjoyride/lucia-adapter-edgedb (recommended)
+npm install jitpackjoyride/lucia-adapter-edgedb
+pnpm add jitpackjoyride/lucia-adapter-edgedb
+yarn add jitpackjoyride/lucia-adapter-edgedb
 ```
 
 ## Testing
 
-```bash
-bun test
-```
+Not yet implemented.
