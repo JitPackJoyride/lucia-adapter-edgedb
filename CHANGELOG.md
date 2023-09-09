@@ -1,5 +1,11 @@
 # @jitpackjoyride/lucia-adapter-edgedb
 
+## 0.0.6
+
+### Patch Changes
+
+- de20196: Mediocre solution to problem of generated id not being returned after setUser
+
 ## 0.0.5
 
 ### Patch Changes
