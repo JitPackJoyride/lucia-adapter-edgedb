@@ -1,0 +1,38 @@
+{
+  "name": "lucia-adapter-edgedb",
+  "description": "Lucia adapter for EdgeDB",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "bun run build.mjs",
+    "prepublishOnly": "bun run build",
+    "lint": "tsc"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "lucia",
+    "edgedb",
+    "adapter",
+    "lucia-adapter",
+    "lucia-auth"
+  ],
+  "homepage": "https://github.com/jitpackjoyride/lucia-adapter-edgedb#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jitpackjoyride/lucia-adapter-edgedb.git"
+  },
+  "bugs": "https://github.com/jitpackjoyride/lucia-adapter-edgedb/issues",
+  "author": "JitPackJoyride <ajitkrishna99@gmail.com>",
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2",
+    "bun-plugin-dts": "^0.1.0",
+    "bun-types": "^1.0.1",
+    "edgedb": "^1.3.5",
+    "lucia": "^2.5.0",
+    "typescript": "^5.2.2"
+  }
+}
