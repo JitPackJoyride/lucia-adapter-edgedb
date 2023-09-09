@@ -5,6 +5,7 @@ import type {
   GlobalDatabaseUserAttributes,
   InitializeAdapter,
 } from "lucia";
+import { uuidValidate } from "./utils";
 
 export const edgeDbAdapter = (
   client: edgedb.Client,
@@ -45,7 +46,14 @@ export const edgeDbAdapter = (
         return await query.run(client);
       },
       setUser: async (user, key) => {
-        delete user.id; // we don't want to set the id with EdgeDB, as it auto-generates a uuid
+        if (uuidValidate(user.id) === false) {
+          // In EdgeDB, the id should always be a UUID
+          // If it's not, we need to delete it, so that EdgeDB can generate a new one
+          // This does degrade developer experience as the id won't be available in the response
+
+          delete user.id;
+        }
+
         if (!key) {
           const query = e.insert(User, user);
           await query.run(client);
@@ -75,7 +83,15 @@ export const edgeDbAdapter = (
       getSessionsByUserId: async (userId) => {
         return [];
       },
-      setSession: async (session) => {},
+      setSession: async (session) => {
+        if (uuidValidate(session.id) === false) {
+          // In EdgeDB, the id should always be a UUID
+          // If it's not, we need to delete it, so that EdgeDB can generate a new one
+          // This does degrade developer experience as the id won't be available in the response
+
+          delete session.id;
+        }
+      },
       deleteSession: async (sessionId) => {},
       deleteSessionsByUserId: async (userId) => {},
       updateSession: async (sessionId, partialSession) => {},
