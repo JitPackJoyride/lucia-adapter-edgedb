@@ -1,5 +1,11 @@
 # @jitpackjoyride/lucia-adapter-edgedb
 
+## 0.0.4
+
+### Patch Changes
+
+- efad644: add basic edgeDbAdapter implementation with just getUser implemented
+
 ## 0.0.3
 
 ### Patch Changes
