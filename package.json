@@ -1,5 +1,5 @@
 {
-  "name": "lucia-adapter-edgedb",
+  "name": "@jitpackjoyride/lucia-adapter-edgedb",
   "description": "Lucia adapter for EdgeDB",
   "version": "0.0.1",
   "main": "dist/index.js",
