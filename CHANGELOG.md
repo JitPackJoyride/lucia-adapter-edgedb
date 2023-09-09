@@ -1,5 +1,11 @@
 # @jitpackjoyride/lucia-adapter-edgedb
 
+## 0.0.3
+
+### Patch Changes
+
+- f07a2a1: fixed installation section in readme.md
+
 ## 0.0.2
 
 ### Patch Changes
