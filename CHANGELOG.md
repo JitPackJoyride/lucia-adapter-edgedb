@@ -1,5 +1,11 @@
 # @jitpackjoyride/lucia-adapter-edgedb
 
+## 0.0.5
+
+### Patch Changes
+
+- f0585cd: Added setUser implementation and changed the adapter function parameters
+
 ## 0.0.4
 
 ### Patch Changes
