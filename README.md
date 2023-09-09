@@ -24,9 +24,6 @@ Do the usual EdgeDB setup, such as `edgedb project init`. Then, add this to your
 ```esdl
 module default {
 	type User {
-		required username: str {
-			constraint exclusive;
-		}
 		multi auth_session: UserSession;
 		multi auth_key: UserKey;
 	}
@@ -44,6 +41,7 @@ module default {
 		}
 		hashed_password: str;
 
+		index on (.keyId);
 		index on (.user);
 	}
 
@@ -59,6 +57,23 @@ module default {
 	}
 }
 ```
+
+## Gotchas
+
+### Using `auth.setUser` or `auth.setSession`
+
+When calling any either `auth.setUser` or `auth.setSession`, it is highly recommended to generate your own random uuid for the `id` field. You can do this with `uuidv4` from `uuid` or `crypto.randomUUID` from `crypto`.
+
+Example:
+
+```typescript
+auth.setUser({
+  userId: crypto.randomUUID(),
+  // ... other fields
+});
+```
+
+This is because Lucia's default id generator is random strings, but EdgeDB uses uuids. If you don't pass your own uuid, then the id will be a random string, which will make it hard to query the database.
 
 ## Testing
 
