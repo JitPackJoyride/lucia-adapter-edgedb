@@ -32,6 +32,13 @@ module default {
 	}
 
 	type UserKey {
+		# keyId is the combination of providerKeyId and providerUserId
+		# providerKeyId is your own custom id for the provider such as "google", "github", "email", etc.
+		# providerUserId is the id returned by the provider such as "1234567890" for google
+		required keyId: str {
+			constraint exclusive;
+		}
+
   		required user: User {
 			on target delete delete source;
 		}
@@ -52,8 +59,6 @@ module default {
 	}
 }
 ```
-
-Then, when
 
 ## Testing
 
