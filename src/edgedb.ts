@@ -7,7 +7,7 @@ import type {
 } from "lucia";
 import { uuidValidate } from "./utils";
 
-export const edgeDbAdapter = (
+export const edgedbAdapter = (
   client: edgedb.Client,
   e: any,
   modelNames: {
