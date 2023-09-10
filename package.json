@@ -8,7 +8,6 @@
   "license": "MIT",
   "scripts": {
     "build": "bun run build.mjs",
-    "prepublishOnly": "bun run build",
     "release": "bun run build && changeset publish",
     "lint": "tsc"
   },
