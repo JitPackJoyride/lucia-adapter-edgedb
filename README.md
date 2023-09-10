@@ -33,7 +33,9 @@ module default {
 		# providerKeyId is your own custom id for the provider such as "google", "github", "email", etc.
 		# providerUserId is the id returned by the provider such as "1234567890" for google
 		required keyId: str {
-			constraint exclusive;
+			constraint exclusive {
+				errmessage := "UserKey: keyId violates exclusivity constraint"
+			}
 		}
 
   		required user: User {

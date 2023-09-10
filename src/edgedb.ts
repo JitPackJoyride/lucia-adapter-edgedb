@@ -63,15 +63,40 @@ export const edgedbAdapter = (
 
         try {
           await client.transaction(async (tx) => {
-            const query = e.insert(User, user);
-            await query.run(tx);
+            const userInsertQuery = e.insert(User, user);
+            const result = await userInsertQuery.run(tx);
 
-            const query2 = e.insert(Key, key);
-            await query2.run(tx);
+            // Removing user_id from key object
+            const {
+              hashed_password: hashedPassword,
+              id: keyId,
+              user_id,
+              ...rest
+            } = key;
+
+            const newKey = {
+              ...rest,
+              hashedPassword,
+              keyId,
+            };
+
+            const keyInsertQuery = e.insert(Key, {
+              ...newKey,
+              user: e.select(User, (userObj: GlobalDatabaseUserAttributes) => {
+                filter_single: e.op(userObj.id, "=", result.id);
+              }),
+            });
+            await keyInsertQuery.run(tx);
           });
         } catch (error) {
-          // TODO: Catch duplicate key error and throw LuciaError("AUTH_DUPLICATE_KEY_ID")
-          console.log(error);
+          // Catch duplicate key errors
+          if (
+            error instanceof edgedb.ConstraintViolationError &&
+            error.message.includes(`${modelNames.key}: keyId`)
+          ) {
+            throw new LuciaError("AUTH_DUPLICATE_KEY_ID");
+          }
+
           throw error;
         }
       },
