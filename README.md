@@ -61,11 +61,38 @@ module default {
 }
 ```
 
+Run the following commands to create a migration and generate the typescript types:
+
+```bash
+edgedb migration create
+edgedb migrate
+npx @edgedb/generate edgeql-js
+```
+
+(If you're using bun, you can use `bunx @edgedb/generate edgeql-js`)
+
+Then, add this to `src/app.d.ts`:
+
+```typescript
+import e, { $infer } from "../dbschema/edgeql-js";
+const userQuery = e.select(e.User, () => ({ ...e.User["*"] }));
+const sessionQuery = e.select(e.UserSession, () => ({ ...e.UserSession["*"] }));
+
+/// <reference types="lucia" />
+declare namespace Lucia {
+  type Auth = import("./auth/lucia").Auth;
+  // NOTE: Keep this in sync with the database schema of User
+  type DatabaseUserAttributes = $infer<typeof userQuery>[number];
+  // NOTE: Keep this in sync with the database schema of UserSession
+  type DatabaseSessionAttributes = $infer<typeof sessionQuery>[number];
+}
+```
+
 ## Gotchas
 
 ### Using `auth.setUser` or `auth.setSession`
 
-When calling any either `auth.setUser` or `auth.setSession`, it is highly recommended to generate your own random uuid for the `id` field. You can do this with `uuidv4` from `uuid` or `crypto.randomUUID` from `crypto`.
+When calling either `auth.setUser` or `auth.setSession`, it is highly recommended to generate your own random uuid for the `id` field. You can do this with `uuidv4` from `uuid` or `crypto.randomUUID` from `crypto`.
 
 Example:
 
