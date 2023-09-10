@@ -1,5 +1,11 @@
 # @jitpackjoyride/lucia-adapter-edgedb
 
+## 0.0.7
+
+### Patch Changes
+
+- 2e1b4f1: Bug with key insertion during setUser
+
 ## 0.0.6
 
 ### Patch Changes
