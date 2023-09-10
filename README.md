@@ -74,6 +74,7 @@ npx @edgedb/generate edgeql-js
 Then, add this to `src/app.d.ts`:
 
 ```typescript
+// src/app.d.ts
 import e, { $infer } from "../dbschema/edgeql-js";
 const userQuery = e.select(e.User, () => ({ ...e.User["*"] }));
 const sessionQuery = e.select(e.UserSession, () => ({ ...e.UserSession["*"] }));
@@ -87,6 +88,21 @@ declare namespace Lucia {
   type DatabaseSessionAttributes = $infer<typeof sessionQuery>[number];
 }
 ```
+
+When you're initialising the EdgeDB client, you need to do something like this:
+
+```typescript
+// src/edgedb.ts
+import * as edgedb from "edgedb";
+
+const client = edgedb.createClient().withConfig({
+  allow_user_specified_id: true,
+});
+
+export default client;
+```
+
+Note the `allow_user_specified_id` option. This is required for allowing the `id` field to be set by the user or by Lucia. Read the [Gotchas](#using-authsetuser-or-authsetsession) section for more information.
 
 ## Gotchas
 
