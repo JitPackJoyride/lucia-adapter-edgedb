@@ -1,5 +1,4 @@
-import * as edgedb from "edgedb";
-
+import type { Client } from "edgedb";
 import type {
   Adapter,
   GlobalDatabaseUserAttributes,
@@ -8,7 +7,7 @@ import type {
 import { uuidValidate } from "./utils";
 
 export const edgedbAdapter = (
-  client: edgedb.Client,
+  client: Client,
   e: any,
   modelNames: {
     user: string;
@@ -90,9 +89,12 @@ export const edgedbAdapter = (
           });
         } catch (error) {
           // Catch duplicate key errors
+          type ErrorCasting = { message?: string };
           if (
-            error instanceof edgedb.ConstraintViolationError &&
-            error.message.includes(`${modelNames.key}: keyId`)
+            (error as ErrorCasting).message &&
+            (error as ErrorCasting).message?.includes(
+              `${modelNames.key}: keyId`
+            )
           ) {
             throw new LuciaError("AUTH_DUPLICATE_KEY_ID");
           }
