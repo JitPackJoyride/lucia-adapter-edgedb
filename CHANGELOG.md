@@ -1,5 +1,11 @@
 # @jitpackjoyride/lucia-adapter-edgedb
 
+## 0.1.0
+
+### Minor Changes
+
+- d4dc062: first working version of the edgedb adapter for lucia-auth
+
 ## 0.0.9
 
 ### Patch Changes
