@@ -1,5 +1,11 @@
 # @jitpackjoyride/lucia-adapter-edgedb
 
+## 0.0.9
+
+### Patch Changes
+
+- c2a0b7f: Clean up build file output by removing huge edgedb import
+
 ## 0.0.8
 
 ### Patch Changes
