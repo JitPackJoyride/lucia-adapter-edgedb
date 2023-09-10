@@ -49,7 +49,7 @@ export const edgedbAdapter = (
         if (uuidValidate(user.id) === false) {
           // In EdgeDB, the id should always be a UUID
           // If it's not, we need to delete it, so that EdgeDB can generate a new one
-          // This does degrade developer experience as the id won't be available in the response
+          // This does degrade developer experience as the id won't necessarily be available in the response
 
           delete user.id;
         }
@@ -83,7 +83,7 @@ export const edgedbAdapter = (
             const keyInsertQuery = e.insert(Key, {
               ...newKey,
               user: e.select(User, (userObj: GlobalDatabaseUserAttributes) => {
-                filter_single: e.op(userObj.id, "=", result.id);
+                filter_single: e.op(userObj.id, "=", e.cast(e.uuid, result.id));
               }),
             });
             await keyInsertQuery.run(tx);
