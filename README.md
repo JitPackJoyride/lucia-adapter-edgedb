@@ -31,21 +31,20 @@ module default {
 	}
 
 	type UserKey {
-		# keyId is the combination of providerKeyId and providerUserId
+		# key_id is the combination of providerKeyId and providerUserId
 		# providerKeyId is your own custom id for the provider such as "google", "github", "email", etc.
 		# providerUserId is the id returned by the provider such as "1234567890" for google
-		required keyId: str {
+		required key_id: str {
 			constraint exclusive {
-				errmessage := "UserKey: keyId violates exclusivity constraint"
+				errmessage := "UserKey: key_id violates exclusivity constraint"
 			}
 		}
-
   		required user: User {
 			on target delete delete source;
 		}
 		hashed_password: str;
 
-		index on (.keyId);
+		index on (.key_id);
 		index on (.user);
 	}
 
@@ -66,26 +65,35 @@ Run the following commands to create a migration and generate the typescript typ
 ```bash
 edgedb migration create
 edgedb migrate
-npx @edgedb/generate edgeql-js
+bunx @edgedb/generate edgeql-js
 ```
 
-(If you're using bun, you can use `bunx @edgedb/generate edgeql-js`)
+(If you're using npm, you can use `npx @edgedb/generate edgeql-js`)
 
 Then, add this to `src/app.d.ts`:
 
 ```typescript
 // src/app.d.ts
 import e, { $infer } from "../dbschema/edgeql-js";
-const userQuery = e.select(e.User, () => ({ ...e.User["*"] }));
-const sessionQuery = e.select(e.UserSession, () => ({ ...e.UserSession["*"] }));
+const userSelectQuery = e.select(e.User, () => ({
+  ...e.User["*"],
+}));
+type UserInDb = $infer<typeof userSelectQuery>[number];
+type User = Omit<UserInDb, "id">;
+
+const sessionSelectQuery = e.select(e.UserSession, () => ({
+  ...e.UserSession["*"],
+}));
+type SessionInDb = $infer<typeof sessionSelectQuery>[number];
+type Session = Omit<SessionInDb, "id" | "active_expires" | "idle_expires">;
 
 /// <reference types="lucia" />
 declare namespace Lucia {
   type Auth = import("./auth/lucia").Auth;
   // NOTE: Keep this in sync with the database schema of User
-  type DatabaseUserAttributes = $infer<typeof userQuery>[number];
+  type DatabaseUserAttributes = User;
   // NOTE: Keep this in sync with the database schema of UserSession
-  type DatabaseSessionAttributes = $infer<typeof sessionQuery>[number];
+  type DatabaseSessionAttributes = Session;
 }
 ```
 
