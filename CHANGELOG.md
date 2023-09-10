@@ -1,5 +1,11 @@
 # @jitpackjoyride/lucia-adapter-edgedb
 
+## 0.0.8
+
+### Patch Changes
+
+- d35d456: Update readme with better schema and fix bug with setting user & key
+
 ## 0.0.7
 
 ### Patch Changes
