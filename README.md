@@ -24,8 +24,10 @@ Do the usual EdgeDB setup, such as `edgedb project init`. Then, add this to your
 ```esdl
 module default {
 	type User {
-		multi auth_session: UserSession;
-		multi auth_key: UserKey;
+		link auth_keys := .<user[is UserKey];
+		link auth_sessions := .<user[is UserSession];
+
+		# put your own fields here
 	}
 
 	type UserKey {
@@ -53,7 +55,6 @@ module default {
 		}
   		required active_expires: int64;
   		required idle_expires: int64;
-		required country: str;
 
 		index on (.user);
 	}
