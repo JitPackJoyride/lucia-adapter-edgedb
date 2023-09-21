@@ -36,5 +36,8 @@
     "edgedb": "^1.3.5",
     "lucia": "^2.5.0",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "dts-bundle-generator": "^8.0.1"
   }
 }
