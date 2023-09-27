@@ -1,1 +1,1 @@
-export { edgedbAdapter } from "./edgedb.ts";
+export { edgedbAdapter } from "./edgedb";

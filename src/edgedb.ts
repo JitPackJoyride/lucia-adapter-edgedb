@@ -1,4 +1,8 @@
-import type { Client } from "edgedb";
+import {
+  ConstraintViolationError,
+  MissingRequiredError,
+  type Client,
+} from "edgedb";
 import type {
   Adapter,
   GlobalDatabaseSessionAttributes,
@@ -82,13 +86,9 @@ export const edgedbAdapter = (
             await keyInsertQuery.run(tx);
           });
         } catch (error) {
-          // Catch duplicate key errors
-          type ErrorCasting = { message?: string };
           if (
-            (error as ErrorCasting).message &&
-            (error as ErrorCasting).message?.includes(
-              `${modelNames.key}: key_id`
-            )
+            error instanceof ConstraintViolationError &&
+            error.message.includes(`${modelNames.key}: key_id`)
           ) {
             throw new LuciaError("AUTH_DUPLICATE_KEY_ID");
           }
@@ -170,14 +170,9 @@ export const edgedbAdapter = (
           await query.run(client);
         } catch (error) {
           // Catch invalid user id errors
-          type ErrorCasting = { message?: string };
-
-          // Catch invalid user id errors
           if (
-            (error as ErrorCasting).message &&
-            (error as ErrorCasting).message?.includes(
-              `missing value for required link 'user'`
-            )
+            error instanceof MissingRequiredError &&
+            error.message.includes(`missing value for required link 'user'`)
           ) {
             throw new LuciaError("AUTH_INVALID_USER_ID");
           }
@@ -256,23 +251,18 @@ export const edgedbAdapter = (
           });
           await query.run(client);
         } catch (error) {
-          type ErrorCasting = { message?: string };
           // Catch duplicate key id error
           if (
-            (error as ErrorCasting).message &&
-            (error as ErrorCasting).message?.includes(
-              `${modelNames.key}: key_id`
-            )
+            error instanceof ConstraintViolationError &&
+            error.message.includes(`${modelNames.key}: key_id`)
           ) {
             throw new LuciaError("AUTH_DUPLICATE_KEY_ID");
           }
 
           // Catch invalid user id errors
           if (
-            (error as ErrorCasting).message &&
-            (error as ErrorCasting).message?.includes(
-              `missing value for required link 'user'`
-            )
+            error instanceof MissingRequiredError &&
+            error.message.includes(`missing value for required link 'user'`)
           ) {
             throw new LuciaError("AUTH_INVALID_USER_ID");
           }
