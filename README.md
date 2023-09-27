@@ -2,11 +2,9 @@
 
 [EdgeDB](https://www.edgedb.com/) adapter for Lucia v2.
 
-**[Documentation](https://lucia-auth.com/reference#lucia-authadapter-prisma)**
-
 **[Lucia documentation](https://lucia-auth.com)**
 
-**[Changelog](github.com/JitPackJoyride/lucia-adapter-edgedb/blob/main/CHANGELOG.md)**
+**[Changelog](https://github.com/JitPackJoyride/lucia-adapter-edgedb/blob/main/CHANGELOG.md)**
 
 ## Installation
 
