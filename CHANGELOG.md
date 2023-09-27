@@ -1,5 +1,11 @@
 # @jitpackjoyride/lucia-adapter-edgedb
 
+## 0.1.1
+
+### Patch Changes
+
+- 462d58f: more native error handling
+
 ## 0.1.0
 
 ### Minor Changes
