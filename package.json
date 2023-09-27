@@ -30,10 +30,10 @@
   "author": "JitPackJoyride <ajitkrishna99@gmail.com>",
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
-    "bun-plugin-dts": "^0.1.0",
-    "bun-types": "^1.0.1",
-    "edgedb": "^1.3.5",
-    "lucia": "^2.5.0",
+    "bun-plugin-dts": "^0.2.1",
+    "bun-types": "^1.0.3",
+    "edgedb": "^1.3.6",
+    "lucia": "^2.7.0",
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
