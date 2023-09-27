@@ -5,6 +5,7 @@
   "private": false,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "build": "bun run build.ts",
