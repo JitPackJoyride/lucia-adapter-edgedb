@@ -1,5 +1,11 @@
 # @jitpackjoyride/lucia-adapter-edgedb
 
+## 0.2.0
+
+### Minor Changes
+
+- e6f869a: Build issues and oAuth bug
+
 ## 0.1.1
 
 ### Patch Changes
