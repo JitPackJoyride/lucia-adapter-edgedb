@@ -43,7 +43,11 @@ export const edgedbAdapter = (
           User,
           (userObj: GlobalDatabaseUserAttributes) => ({
             ...User["*"],
-            filter_single: e.op(userObj.id, "=", e.cast(e.uuid, userId)),
+            filter_single: e.op(
+              e.cast(e.uuid, userObj.id),
+              "=",
+              e.cast(e.uuid, userId)
+            ),
           })
         );
 
@@ -80,7 +84,11 @@ export const edgedbAdapter = (
             const keyInsertQuery = e.insert(Key, {
               ...newKey,
               user: e.select(User, (userObj: GlobalDatabaseUserAttributes) => ({
-                filter_single: e.op(userObj.id, "=", e.cast(e.uuid, result.id)),
+                filter_single: e.op(
+                  e.cast(e.uuid, userObj.id),
+                  "=",
+                  e.cast(e.uuid, result.id)
+                ),
               })),
             });
             await keyInsertQuery.run(tx);
@@ -100,7 +108,11 @@ export const edgedbAdapter = (
         const query = e.delete(
           User,
           (userObj: GlobalDatabaseUserAttributes) => ({
-            filter_single: e.op(userObj.id, "=", e.cast(e.uuid, userId)),
+            filter_single: e.op(
+              e.cast(e.uuid, userObj.id),
+              "=",
+              e.cast(e.uuid, userId)
+            ),
           })
         );
         await query.run(client);
@@ -109,7 +121,11 @@ export const edgedbAdapter = (
         const query = e.update(
           User,
           (userObj: GlobalDatabaseUserAttributes) => ({
-            filter_single: e.op(userObj.id, "=", e.cast(e.uuid, userId)),
+            filter_single: e.op(
+              e.cast(e.uuid, userObj.id),
+              "=",
+              e.cast(e.uuid, userId)
+            ),
             set: partialUser,
           })
         );
@@ -126,7 +142,11 @@ export const edgedbAdapter = (
           (sessionObj: GlobalDatabaseSessionAttributes) => ({
             ...Session["*"],
             user_id: e.cast(e.uuid, sessionObj.user.id),
-            filter_single: e.op(sessionObj.id, "=", e.cast(e.uuid, sessionId)),
+            filter_single: e.op(
+              e.cast(e.uuid, sessionObj.id),
+              "=",
+              e.cast(e.uuid, sessionId)
+            ),
           })
         );
 
@@ -142,7 +162,11 @@ export const edgedbAdapter = (
           (sessionObj: GlobalDatabaseSessionAttributes) => ({
             ...Session["*"],
             user_id: e.cast(e.uuid, sessionObj.user.id),
-            filter: e.op(sessionObj.user.id, "=", e.cast(e.uuid, userId)),
+            filter: e.op(
+              e.cast(e.uuid, sessionObj.user.id),
+              "=",
+              e.cast(e.uuid, userId)
+            ),
           })
         );
 
@@ -166,7 +190,11 @@ export const edgedbAdapter = (
           const query = e.insert(Session, {
             ...sessionWithoutUserId,
             user: e.select(User, (userObj: GlobalDatabaseUserAttributes) => ({
-              filter_single: e.op(userObj.id, "=", e.cast(e.uuid, user_id)),
+              filter_single: e.op(
+                e.cast(e.uuid, userObj.id),
+                "=",
+                e.cast(e.uuid, user_id)
+              ),
             })),
           });
           await query.run(client);
@@ -190,7 +218,11 @@ export const edgedbAdapter = (
         const query = e.delete(
           Session,
           (sessionObj: GlobalDatabaseSessionAttributes) => ({
-            filter_single: e.op(sessionObj.id, "=", e.cast(e.uuid, sessionId)),
+            filter_single: e.op(
+              e.cast(e.uuid, sessionObj.id),
+              "=",
+              e.cast(e.uuid, sessionId)
+            ),
           })
         );
 
@@ -204,7 +236,11 @@ export const edgedbAdapter = (
         const query = e.delete(
           Session,
           (sessionObj: GlobalDatabaseSessionAttributes) => ({
-            filter: e.op(sessionObj.user.id, "=", e.cast(e.uuid, userId)),
+            filter: e.op(
+              e.cast(e.uuid, sessionObj.user.id),
+              "=",
+              e.cast(e.uuid, userId)
+            ),
           })
         );
 
@@ -218,7 +254,11 @@ export const edgedbAdapter = (
         const query = e.update(
           Session,
           (sessionObj: GlobalDatabaseSessionAttributes) => ({
-            filter_single: e.op(sessionObj.id, "=", e.cast(e.uuid, sessionId)),
+            filter_single: e.op(
+              e.cast(e.uuid, sessionObj.id),
+              "=",
+              e.cast(e.uuid, sessionId)
+            ),
             set: partialSession,
           })
         );
@@ -229,7 +269,7 @@ export const edgedbAdapter = (
         const query = e.select(Key, (keyObj: any) => ({
           ...Key["*"],
           user_id: e.cast(e.uuid, keyObj.user.id),
-          filter_single: e.op(keyObj.key_id, "=", e.cast(e.uuid, keyId)),
+          filter_single: e.op(keyObj.key_id, "=", keyId),
         }));
 
         return await query.run(client);
@@ -238,7 +278,11 @@ export const edgedbAdapter = (
         const query = e.select(Key, (keyObj: any) => ({
           ...Key["*"],
           user_id: e.cast(e.uuid, keyObj.user.id),
-          filter: e.op(keyObj.user.id, "=", e.cast(e.uuid, userId)),
+          filter: e.op(
+            e.cast(e.uuid, keyObj.user.id),
+            "=",
+            e.cast(e.uuid, userId)
+          ),
         }));
 
         return await query.run(client);
@@ -250,7 +294,11 @@ export const edgedbAdapter = (
             key_id,
             ...keyWithoutUserId,
             user: e.select(User, (userObj: GlobalDatabaseUserAttributes) => ({
-              filter_single: e.op(userObj.id, "=", e.cast(e.uuid, user_id)),
+              filter_single: e.op(
+                e.cast(e.uuid, userObj.id),
+                "=",
+                e.cast(e.uuid, user_id)
+              ),
             })),
           });
           await query.run(client);
@@ -276,21 +324,25 @@ export const edgedbAdapter = (
       },
       deleteKey: async (keyId) => {
         const query = e.delete(Key, (keyObj: { key_id: string }) => ({
-          filter_single: e.op(keyObj.key_id, "=", e.cast(e.uuid, keyId)),
+          filter_single: e.op(keyObj.key_id, "=", keyId),
         }));
 
         await query.run(client);
       },
       deleteKeysByUserId: async (userId) => {
         const query = e.delete(Key, (keyObj: { user: { id: string } }) => ({
-          filter: e.op(keyObj.user.id, "=", e.cast(e.uuid, userId)),
+          filter: e.op(
+            e.cast(e.uuid, keyObj.user.id),
+            "=",
+            e.cast(e.uuid, userId)
+          ),
         }));
 
         await query.run(client);
       },
       updateKey: async (keyId, partialKey) => {
         const query = e.update(Key, (keyObj: { key_id: string }) => ({
-          filter_single: e.op(keyObj.key_id, "=", e.cast(e.uuid, keyId)),
+          filter_single: e.op(keyObj.key_id, "=", keyId),
           set: partialKey,
         }));
 
@@ -308,7 +360,11 @@ export const edgedbAdapter = (
             user: {
               ...User["*"],
             },
-            filter_single: e.op(sessionObj.id, "=", e.cast(e.uuid, sessionId)),
+            filter_single: e.op(
+              e.cast(e.uuid, sessionObj.id),
+              "=",
+              e.cast(e.uuid, sessionId)
+            ),
           })
         );
 
