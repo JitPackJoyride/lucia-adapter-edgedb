@@ -1,5 +1,11 @@
 # @jitpackjoyride/lucia-adapter-edgedb
 
+## 0.3.0
+
+### Minor Changes
+
+- 1e9eb2c: fixed uuid equality check bug
+
 ## 0.2.0
 
 ### Minor Changes
